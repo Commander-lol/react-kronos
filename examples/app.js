@@ -90,6 +90,7 @@ export default class App extends Component {
         padding: '24px 0 48px',
         flexDirection: 'column',
       },
+
     }
 
     let props = {
@@ -157,6 +158,7 @@ export default class App extends Component {
                 {...props}
               />
             </div>
+
             <h2>Controlled</h2>
             <div className='kronos'>
               <button className='toggle-button' onClick={::this.onClickButtonControlled}>
@@ -190,6 +192,31 @@ export default class App extends Component {
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 onSelect={this.onSelect}
+                {...props}
+              />
+            </div>
+
+            <h2>Disabled & Hide Outside Times</h2>
+            <div className='kronos'>
+              <Kronos
+                date={this.state.uncontrolledDatetime}
+                onChangeDateTime={::this.onChangeUncontrolled}
+                min={minDate}
+                max={maxDate}
+                placeholder={'This is the placeholder'}
+                disabled
+                {...props}
+              />
+              <Kronos
+                time={this.state.uncontrolledDatetime}
+                format={'H:mm'}
+                onChangeDateTime={::this.onChangeUncontrolled}
+                min={minDate}
+                minTime={minTime}
+                max={maxDate}
+                maxTime={maxTime}
+                placeholder={'Another one'}
+                hideOutsideDateTimes
                 {...props}
               />
             </div>

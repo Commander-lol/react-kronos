@@ -1,5 +1,12 @@
 Changelog
 =========
+## 1.4.4
+
+- added `disabled` prop to allow disabling the input field & overriding the visibility selectors
+
+## 1.4.3
+
+- added `hideOutsideDateTimes` prop to hide times that do not pass validation in the time selector
 
 ## 1.4.2
 

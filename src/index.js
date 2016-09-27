@@ -378,6 +378,8 @@ class Kronos extends Component {
   }
 
   render() {
+    const { hideOutsideDateTimes, disabled } = this.props
+
     const mainClasses = cn('react-kronos',
       this.props.id,
       this.props.classes.kronos
@@ -385,7 +387,7 @@ class Kronos extends Component {
     const inputClasses = cn(this.props.classes.input,
       { 'outside-range': this.state.dateTimeExceedsValidRange }
     )
-    const visible = this.props.controlVisibility
+    const visible = !disabled && this.props.controlVisibility
       ? this.props.visible
       : this.state.visible
 
@@ -403,6 +405,7 @@ class Kronos extends Component {
           placeholder={this.props.placeholder}
           name={this.props.name}
           className={inputClasses}
+          disabled={disabled}
         />
         { visible &&
           <Calendar
@@ -415,7 +418,7 @@ class Kronos extends Component {
             validate={::this.validate}
             options={this.props.options}
             inputRect={this._input.getClientRects()[0]}
-            hideOutsideDateTimes={this.props.hideOutsideDateTimes}
+            hideOutsideDateTimes={hideOutsideDateTimes}
           />
         }
       </div>

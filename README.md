@@ -30,8 +30,8 @@ A fast, intuitive, and elegant date and time picker for React.
 
 ## Usage
 
-1. NPM install `npm install react-kronos`
-2. Require Kronos `import Kronos from 'react-kronos'`
+1. NPM install `npm install @commander-lol/react-kronos`
+2. Require Kronos `import Kronos from '@commander-lol/react-kronos'`
 3. Use
 ```jsx
 <Kronos

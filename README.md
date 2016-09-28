@@ -1,5 +1,8 @@
-React Kronos 1.4
+React Kronology
 ================
+_A fork of [react-kronos](https://github.com/dubert/react-kronos)_
+
+[![Build Status](https://travis-ci.org/Commander-lol/react-kronos.svg?branch=master)](https://travis-ci.org/Commander-lol/react-kronos)
 
 A fast, intuitive, and elegant date and time picker for React.
 

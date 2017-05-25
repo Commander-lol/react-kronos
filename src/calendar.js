@@ -21,6 +21,7 @@ class Calendar extends Component {
 
 		this.state = {
 			windowHeight: window.innerHeight,
+			virtualdatetime: props.datetime,
 		}
 	}
 
@@ -86,12 +87,16 @@ class Calendar extends Component {
 
 	onNavigateLeft() {
 		const lvl = Levels[this.props.level].nav
-		this.props.onSelect(this.props.datetime.subtract(lvl.span, lvl.unit))
+		this.setState(() => ({
+			virtualdatetime: this.state.virtualdatetime.subtract(lvl.span, lvl.unit)
+		}))
 	}
 
 	onNavigateRight() {
 		const lvl = Levels[this.props.level].nav
-		this.props.onSelect(this.props.datetime.add(lvl.span, lvl.unit))
+		this.setState(() => ({
+			virtualdatetime: this.state.virtualdatetime.add(lvl.span, lvl.unit)
+		}))
 	}
 
 	onToday() {
@@ -240,6 +245,7 @@ class Calendar extends Component {
 
 	render() {
 		const {level, datetime, classes, inputRect, hideOutsideDateTimes, className} = this.props
+		const { virtualdatetime } = this.state
 
 		let calendarClass = classes.calendarBelow
 
@@ -259,10 +265,10 @@ class Calendar extends Component {
 					onPrev={::this.onNavigateLeft}
 					onNext={::this.onNavigateRight}
 					onTitle={::this.onNavigateUp}
-					title={this.getTitle(level, datetime)}
+					title={this.getTitle(level, virtualdatetime)}
 				/> }
 				<div className={cn(classes.grid, level)}>
-					{ this.getCells(level, datetime).map((cell, i) => {
+					{ this.getCells(level, virtualdatetime).map((cell, i) => {
 						let type
 						switch (true) {
 							case cell.header:

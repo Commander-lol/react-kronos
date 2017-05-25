@@ -1,6 +1,6 @@
 {
   "name": "@commander-lol/react-kronos",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A fast, intuitive, and elegant date and time picker for React.",
   "main": "dist/bundle.js",
   "scripts": {
@@ -12,7 +12,8 @@
     "build:examples": "NODE_ENV=production webpack --config docs/webpack.config.examples.js",
     "clean": "rimraf dist && rimraf lib && npm run clean:examples",
     "clean:examples": "rimraf examples/bundle.*",
-    "push_examples": "./scripts/push_ghpages"
+    "push_examples": "./scripts/push_ghpages",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

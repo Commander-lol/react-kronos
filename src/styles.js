@@ -8,40 +8,52 @@ let _moment = false
 let _options = {}
 
 function initializeMoment(options) {
-	if (!_moment) {
-		if (options && options.moment) {
-			if (options.moment.settings) {
-				Moment.locale(options.moment.lang, options.moment.settings)
-			}
-			else {
-				Moment.locale(options.moment.lang)
-			}
-		}
-		else {
-			Moment.updateLocale('en', {
-				week: {dow: 1},
-				weekdaysMin: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-			})
-		}
+	if (_moment) return
+
+	let lang = Moment.locale()
+
+	if (options && !options.hasOwnProperty('locale') && options.hasOwnProperty('moment')) {
+		console.warn('Providing options.moment is deprecated in react-kronos 1.6.0 and will be removed in future versions. Please provide options.locale instead')
+		options.locale = options.moment // Backwards compat
 	}
+
+	if (options && options.locale) {
+		if (options.locale.lang) {
+			lang = options.locale.lang
+			Moment.locale(lang)
+		}
+		if (options.locale.settings) {
+			Moment.updateLocale(lang, options.locale.settings)
+		}
+	} else {
+		Moment.updateLocale(lang, {
+			week: { dow: 1 },
+			weekdaysMin: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+		})
+	}
+
 	_moment = true
 }
 
-function initializeOptions(options, uuid) {
-	_options[uuid] = omit(options, 'moment')
+function initializeOptions(options, instance) {
+	_options[instance] = omit(options, 'moment')
 }
 
-export default function getStyle(page, props, uuid) {
+export default function getStyle(page, props, instance) {
 	initializeMoment(props.options)
 	if (props.options) {
-		initializeOptions(props.options, uuid)
+		initializeOptions(props.options, instance)
 	}
 	let defaultOptions = {
 		color: '#1e7e9e',
 		corners: 4,
 		font: 'Source Sans Pro',
 	}
-	let options = assign(defaultOptions, _options[uuid])
+	let options = assign(defaultOptions, _options[instance])
+
+	if (props.disabled) {
+		options.inputDisabled = true
+	}
 
 	let style
 	switch (page) {
@@ -54,14 +66,10 @@ export default function getStyle(page, props, uuid) {
 		case 'navigation':
 			style = navigation(options)
 			break
-		case 'cell':
-			style = cell(options)
-			break
 	}
 
 	return style
 }
-
 
 // Styles for each page
 
@@ -89,6 +97,9 @@ function index(options) {
 			'&.outside-range': {
 				color: 'white',
 				background: '#d0021b',
+			},
+			'&:hover': {
+				cursor: options.inputDisabled ? 'not-allowed' : 'default',
 			},
 			'&:focus': {
 				outline: 'none',

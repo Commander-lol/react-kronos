@@ -1,7 +1,6 @@
 import React from 'react'
 import jss from 'jss'
 
-
 export default function createStyledComponent(Component, rules, options) {
 
 	function attach(rules, options) {
@@ -19,7 +18,7 @@ export default function createStyledComponent(Component, rules, options) {
 	class StyledComponent extends React.Component {
 
 		componentWillMount() {
-			let uuid = this.props.id ? this.props.id : makeUUID()
+			let uuid = this.props.instance ? this.props.instance : makeUUID()
 			let _rules
 				= typeof rules === 'function'
 				? rules(this.props, uuid)
@@ -53,7 +52,7 @@ export default function createStyledComponent(Component, rules, options) {
 		render() {
 			return (
 				<Component
-					id={this.uuid}
+					instance={this.uuid}
 					ref={'kronos'}
 					classes={this.sheet.classes}
 					classSet={this.classSet}

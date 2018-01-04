@@ -43,6 +43,7 @@ A fast, intuitive, and elegant date and time picker for React.
 **Props:**
 - `date` - *Date()*, *Moment()*, *ISO*, or *string* (if string, must match `format`)
 - `time` - *Date()*, *Moment()*, *ISO*, or *string* (if string, must match `format`)
+- `timeStep` - *number* : minutes for time step (if not specified: 30 minutes)
 - `format` - *string* : [Moment formatting](http://momentjs.com/docs/#/parsing/string-format/) of date / time
 - `onChange` - *function* : native onChange method
 - `onChangeDateTime` - *function* : change method called when there is a new value
@@ -59,11 +60,17 @@ A fast, intuitive, and elegant date and time picker for React.
 - `hideOutsideDateTimes` - *boolean*: optionally hide times that do not pass validation (default: `false`)
 - `placeholder` - *string* : placeholder text when there is no value
 - `name` - *string* : name used for the input form
+- `disabled` - *boolean* : prevent interaction with input field
+- `inputStyle` - *object* : inline styles for input field
+- `inputClassName` - *string* : `.class` for input field
+- `inputId` - *string* : `#id` for input field
+- `calendarStyle` - *object* : inline styles for calendar
+- `calendarClassName` - *string* : `.class` for calendar
 - `options:`
   - `color` - *string* : the highlight color in the UI as a hex
   - `corners` - *number* : the pixel size of rounded corners (default: `4`)
   - `font` - *string* : the font family (default: `Source Sans Pro`)
-  - `moment:` - *object* : Moment locale [customization](http://momentjs.com/docs/#/customization/)
+  - `locale` - *object* : Moment locale [customization](http://momentjs.com/docs/#/customization/)
     - `lang` - *string* : language (default: `en` for english)
     - `settings` - *object* : properties to override as an object (default: `{ week: { dow: 1 }, weekdaysMin: ['M', 'T', 'W', 'T', 'F', 'S', 'S'] }`)
   - `format`: - *object* : Moment formatting for cell titles

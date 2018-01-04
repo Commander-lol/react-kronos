@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 export default class Cell extends Component {
@@ -18,9 +19,9 @@ export default class Cell extends Component {
 			this.props.classes.cell,
 			this.props.level,
 			this.props.type,
-			{selected: this.props.selected},
-			{today: this.props.today},
-			{'outside-range': !this.props.invalid},
+			{ selected: this.props.selected },
+			{ today: this.props.today },
+			{ 'outside-range': !this.props.invalid },
 		)
 
 		return (

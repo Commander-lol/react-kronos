@@ -8,6 +8,39 @@ Changelog
 
 - added `hideOutsideDateTimes` prop to hide times that do not pass validation in the time selector
 
+## 1.6.0
+
+**Breaking**:
+- renamed `options.moment` prop to `options.locale`
+
+**Non-breaking**:
+- refactored how the locale is set to fix several issues
+- add `disabled` prop
+- add `inputStyle`, `inputClassName`, and `inputId` props
+- add `calendarStyle` and `calendarClassName` props
+- add `shouldClose` parameter to controlled `onSelect` callback
+
+## 1.5.4
+
+- removed margin and padding style that was clashing
+
+## 1.5.3
+
+- update jss dependency to latest version (6.3.0)
+
+## 1.5.2
+
+- [bug] fix prop `timeStep` so it reads the passed prop [#53](https://github.com/dubert/react-kronos/issues/53) (thanks [Slapbox](https://github.com/Slapbox))
+
+## 1.5.1
+
+- [bug] fix showing minute cells when passing `timeStep` prop to a date component
+
+## 1.5.0
+
+- [feature] added `hideOutsideDateTimes` to hide times that cannot be selected [#45](https://github.com/dubert/react-kronos/pull/45) (thanks [Commander-lol](https://github.com/Commander-lol))
+- [feature] added `timeStep` prop to configure the number of minutes in an interval [#48](https://github.com/dubert/react-kronos/issues/48) (thanks [ochervak](https://github.com/ochervak))
+
 ## 1.4.2
 
 - [bug] fixed issue with toggling visibility on controlled inputs [#41](https://github.com/dubert/react-kronos/issues/41)

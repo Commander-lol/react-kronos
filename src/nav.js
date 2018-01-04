@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import createStyledComponent from './styled-component'
 import getStyle from './styles'
-
 
 class Navigation extends Component {
 
@@ -30,6 +30,6 @@ class Navigation extends Component {
 	}
 }
 
-export default createStyledComponent(Navigation,
-	(props, id) => getStyle('navigation', props, id)
+export default createStyledComponent(Navigation, (props, instance) =>
+  getStyle('navigation', props, instance),
 )

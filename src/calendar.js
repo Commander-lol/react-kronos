@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 
 import get from 'lodash/get'
@@ -7,12 +8,11 @@ import Moment from 'moment'
 import 'moment-range'
 import cn from 'classnames'
 
-import {Levels, Units} from './constants'
+import { Levels, Units } from './constants'
 import Navigation from './nav'
 import Cell from './cell'
 import createStyledComponent from './styled-component'
 import getStyle from './styles'
-
 
 class Calendar extends Component {
 
@@ -25,7 +25,7 @@ class Calendar extends Component {
 		}
 	}
 
-	static PropTypes = {
+	static propTypes = {
 		datetime: PropTypes.object.isRequired,
 		onSelect: PropTypes.func.isRequired,
 		level: PropTypes.string.isRequired,
@@ -59,7 +59,7 @@ class Calendar extends Component {
 
 	updateDimensions() {
 		if (this._isMounted) {
-			this.setState({windowHeight: window.innerHeight})
+			this.setState({ windowHeight: window.innerHeight })
 		}
 	}
 
@@ -88,14 +88,14 @@ class Calendar extends Component {
 	onNavigateLeft() {
 		const lvl = Levels[this.props.level].nav
 		this.setState(() => ({
-			virtualdatetime: this.state.virtualdatetime.subtract(lvl.span, lvl.unit)
+			virtualdatetime: this.state.virtualdatetime.subtract(lvl.span, lvl.unit),
 		}))
 	}
 
 	onNavigateRight() {
 		const lvl = Levels[this.props.level].nav
 		this.setState(() => ({
-			virtualdatetime: this.state.virtualdatetime.add(lvl.span, lvl.unit)
+			virtualdatetime: this.state.virtualdatetime.add(lvl.span, lvl.unit),
 		}))
 	}
 
@@ -135,12 +135,14 @@ class Calendar extends Component {
 			case 'hours':
 				return null
 		}
-
 	}
 
 	getCells(unit, datetime) {
 		datetime = datetime || Moment()
-		switch (unit) {
+
+		const type = unit === 'hours' && this.props.timeStep ? 'minutes' : unit
+
+		switch (type) {
 			case 'years': {
 				const start = datetime.clone().subtract(4, 'years')
 				const end = datetime.clone().add(7, 'years')
@@ -240,11 +242,37 @@ class Calendar extends Component {
 				return hours
 			}
 
+			case 'minutes': {
+				const start = datetime.clone().startOf('day')
+				const end = datetime.clone().endOf('day')
+				let minutes = []
+				const format = get(this.props, 'options.format.hour') || 'HH:mm'
+
+				Moment().range(start, end).by(Units.MINUTE, minute => {
+					const _minutes = minute.minutes()
+
+					if (_minutes === 0) {
+						minutes.push({
+							moment: minute,
+							label: minute.format(format),
+							selected: minute.isSame(datetime, 'minute'),
+						})
+					} else if (_minutes % this.props.timeStep === 0) {
+						minutes.push({
+							moment: minute,
+							label: minute.format(format),
+							selected: minute.isSame(datetime, 'minute'),
+						})
+					}
+				})
+
+				return minutes
+			}
 		}
 	}
 
 	render() {
-		const {level, datetime, classes, inputRect, hideOutsideDateTimes, className} = this.props
+		const { level, datetime, classes, inputRect, hideOutsideDateTimes, className } = this.props
 		const { virtualdatetime } = this.state
 
 		let calendarClass = classes.calendarBelow
@@ -259,16 +287,17 @@ class Calendar extends Component {
 				onMouseDown={e => this.props.above(true)}
 				onMouseUp={e => this.props.above(false)}
 			>
-				{ level != 'hours' &&
+				{level != 'hours' &&
 				<Navigation
+					instance={this.props.instance}
 					id={this.props.id}
 					onPrev={::this.onNavigateLeft}
 					onNext={::this.onNavigateRight}
 					onTitle={::this.onNavigateUp}
 					title={this.getTitle(level, virtualdatetime)}
-				/> }
+				/>}
 				<div className={cn(classes.grid, level)}>
-					{ this.getCells(level, virtualdatetime).map((cell, i) => {
+					{this.getCells(level, virtualdatetime).map((cell, i) => {
 						let type
 						switch (true) {
 							case cell.header:
@@ -306,9 +335,12 @@ class Calendar extends Component {
 						)
 					}).filter(cell => cell != null)
 					}
-					{ level != 'hours' &&
-					<div className={classes.today} onClick={::this.onToday}>
-						{ get(this.props, 'options.format.today') || 'Today' }
+					{level != 'hours' &&
+					<div
+						className={classes.today}
+						onClick={::this.onToday}
+					>
+						{get(this.props, 'options.format.today') || 'Today'}
 					</div>
 					}
 				</div>
@@ -318,7 +350,6 @@ class Calendar extends Component {
 
 }
 
-
-export default createStyledComponent(Calendar,
-	(props, id) => getStyle('calendar', props, id)
+export default createStyledComponent(Calendar, (props, instance) =>
+	getStyle('calendar', props, instance),
 )
